@@ -98,8 +98,8 @@ docker inspect app1
 ### Port forwarding: 
 docker run --rm -d --name app1 -p 8000:80 nginx:latest
 
-###
-View logs: docker logs app1 -f
+### View logs: 
+docker logs app1 -f
 
 -f stands for “follow.” It allows you to see the logs in real-time, as they’re generated, similar to tail -f on a log file.
 With -f, new log entries will continuously appear in your terminal as the application writes more logs, which is useful for monitoring an active process.
