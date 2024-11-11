@@ -110,7 +110,7 @@ With -f, new log entries will continuously appear in your terminal as the applic
 
 
 
-## Default directory change in Docker
+## Changing Default directory in Docker
 The default directory for Docker is /var/lib/docker. As you continue downloading images and generating logs, this directory will consume more space and eventually get busy. To prevent this, we can store all our Docker data in a separate directory.
 
 ### steps to change Default directory
