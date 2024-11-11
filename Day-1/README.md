@@ -11,4 +11,4 @@ A container is a bundle of Application, Application libraries required to run yo
 Containers share the main computer’s operating system but have their own space for running applications. Containers are much smaller and start very quickly since they don’t need a full OS. They offer enough isolation to keep applications separate, but are less isolated than VMs because they share the same OS.
 
 
-
+![image](https://github.com/user-attachments/assets/cae4fb34-2fb2-4358-8f18-eabddaf65c1e)
