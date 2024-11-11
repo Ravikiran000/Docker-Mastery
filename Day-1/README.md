@@ -55,3 +55,51 @@ Dockerfile is a file where you provide the steps to build your Docker Image.
 
 ### Docker Image
 An image is a read-only template with instructions for creating a Docker container.
+
+
+## Installing Docker 
+curl https://get.docker.com/ | bash
+## Listing namespaces & Running basic docker commands
+### Check Docker version: 
+docker version
+
+### List namespaces: 
+lsns
+
+### List PID namespaces: 
+lsns -t pid
+
+### Run a container: 
+docker run --name app1 nginx:latest
+
+### Run a container in the background: 
+docker -d run --name app1 nginx:latest
+
+### Create multiple containers: 
+for i in {1..10}; do 
+docker run -d nginx:latest; 
+done
+
+### List running containers: 
+docker ps
+
+### List all containers including runinng & stopped: 
+docker ps -a
+
+### Stop all containers: 
+docker stop $(docker ps -aq)
+
+### Deploy a container and remove it when container is stopped: 
+docker run --rm -d --name app1 nginx:latest
+
+### Inspect a container: 
+docker inspect app1
+
+### Port forwarding: 
+docker run --rm -d --name app1 -p 8000:80 nginx:latest
+
+###
+View logs: docker logs app1 -f
+
+-f stands for “follow.” It allows you to see the logs in real-time, as they’re generated, similar to tail -f on a log file.
+With -f, new log entries will continuously appear in your terminal as the application writes more logs, which is useful for monitoring an active process.
