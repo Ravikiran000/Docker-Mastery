@@ -157,3 +157,44 @@ The default directory for Docker is /var/lib/docker. As you continue downloading
    4.7 sudo systemctl status docker --no-pager
   
    4.8 ps aux | grep -i docker | grep -v grep
+
+
+## Networks
+Netwrok : Bridge - Host - none
+
+Bridge : A Docker bridge network is a private internal network created by Docker on the host machine. It's used to allow containers to communicate with each other within the same host. It is the default network.
+
+### Why We Need a Custom Network for Containers
+First create a customer network
+
+Docker network create myapp --driver bridge
+
+Docker network inspect myapp
+
+Now run containers with including the custom network
+
+docker run –rm -d –name app3 -p 8001 –network myapp kiran2361993:troubleshootingtools:v1
+
+docker run –rm -d –name app4 -p 8002 –network myapp kiran2361993:troubleshootingtools:v1
+
+If you login to the container with docker exec -it containername bash and you can ping with the container name instead of IP, It should work.
+
+### Using the HOST Network Mode
+The HOST network mode means the container shares the host's IP address. This eliminates the need for port forwarding when running the container. For example, when using Prometheus with Node Exporter, it utilizes the host IP for metric collection, making it easier to access the metrics.
+
+Example Command
+
+docker run --rm -d --name node-exporter --network host prom/node-exporter
+
+You can access the Node Exporter from the host's public IP on port 9100. To inspect the Docker image and understand the default settings, use the following command:
+
+docker image inspect prom/node-exporter:latest
+
+### Using the NONE Network Mode
+The NONE network mode means the container has no network interfaces enabled except for a loopback device. This is useful for highly isolated containers that do not require any network access.
+
+Example Command
+
+docker run --rm -d --name isolated-container --network none busybox
+
+This command runs a BusyBox container with no network connectivity, providing complete network isolation.
