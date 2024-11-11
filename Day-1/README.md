@@ -22,20 +22,24 @@ Containers share the main computer’s operating system but have their own space
 
 3. Security: VMs provide a higher level of security as each VM has its own operating system and can be isolated from the host and other VMs. Containers provide less isolation, as they share the host operating system.
 
+
 ## Container Runtime
 Container Runtimes are used for running the containers. There are several runtimes for running containers, including: Container-D Docker CRI-O
 ### Note: In production environments, Container-D is typically used. Developers often use Docker for local testing. For example, KIND (Kubernetes IN Docker) is used to create Kubernetes clusters in Docker for testing.
 # Docker
 Docker is a containerization platform that provides easy way to containerize your applications, which means, using Docker you can build container images, run the images to create containers and also push these containers to container regestries such as DockerHub, Quay.io and so on.
 
+
 ## Docker Architecture
 ![image](https://github.com/user-attachments/assets/229ce935-c7ee-43fc-80c2-65878065219c)
+
 
 ### Docker Life cycle
 docker build -> builds docker images from Dockerfile
 docker run -> runs container from docker images
 docker push -> push the container image to public/private regestries to share the docker images.
 ![image](https://github.com/user-attachments/assets/f819855c-3dd3-44de-b7a5-a84189657d9a)
+
 
 ### Docker client
 The Docker client (docker) is the primary way that many Docker users interact with Docker. When you use commands such as docker run, the client sends these commands to dockerd, which carries them out. The docker command uses the Docker API. The Docker client can communicate with more than one daemon.
