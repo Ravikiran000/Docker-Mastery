@@ -107,3 +107,49 @@ docker logs app1 -f
 
 -f stands for “follow.” It allows you to see the logs in real-time, as they’re generated, similar to tail -f on a log file.
 With -f, new log entries will continuously appear in your terminal as the application writes more logs, which is useful for monitoring an active process.
+
+
+
+## Default directory change in Docker
+The default directory for Docker is /var/lib/docker. As you continue downloading images and generating logs, this directory will consume more space and eventually get busy. To prevent this, we can store all our Docker data in a separate directory.
+
+### steps to change Default directory
+1. create one EBS volume and attach it to your instance.
+2. check the volume
+
+    lsblk
+
+3. create partition to the volume and make file system to it and attach it to the fstab
+
+   3.1 fdisk /dev/xvdf
+   
+       n > p > w >
+
+       lsblk
+
+   3.2 mkfs.ext4 /dev/xvdf1
+
+       copy UUID Somewhere
+
+   3.3 mkdir /dockerdata
+
+       nano /etc/fstab
+
+       Paste Like below
+![image](https://github.com/user-attachments/assets/d92b4dd5-7630-4bcc-9b77-f61193819e05)
+
+4. Change docker service directory
+
+   4.1 sudo systemctl stop docker.service
+  
+   4.2 sudo systemctl stop docker.socket
+  
+   4.3 sudo nano /lib/systemd/system/docker.service Add the following line with the custom directo
+  
+   4.4 #ExecStart=/usr/bin/dockerd -H fd:// -- containerd=/run/containerd/containerd.sock
+  
+       ExecStart=/usr/bin/dockerd --data-root /dockerdata -H fd:// --containerd=/run/containerd/containerd.sock
+
+   4.5 sudo rsync -aqxP /var/lib/docker/ /dockerdata
+  
+   4.6 sudo systemctl daemon-reload && sudo systemctl start docker
