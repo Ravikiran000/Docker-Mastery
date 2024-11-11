@@ -153,3 +153,7 @@ The default directory for Docker is /var/lib/docker. As you continue downloading
    4.5 sudo rsync -aqxP /var/lib/docker/ /dockerdata
   
    4.6 sudo systemctl daemon-reload && sudo systemctl start docker
+
+   4.7 sudo systemctl status docker --no-pager
+  
+   4.8 ps aux | grep -i docker | grep -v grep
