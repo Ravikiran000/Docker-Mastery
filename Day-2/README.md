@@ -9,12 +9,15 @@ Imagine you have an application packaged in a container that stores data in a da
 ### Volumes:
 
 Managed by Docker.
+
 Stored in a part of the host filesystem which is managed by Docker.
+
 Preferred method for data persistence.
 
 ### Bind Mounts:
 
 Maps a file or directory on the host to a file or directory in the container.
+
 More complex but provides flexibility to interact with the host system.
 
 # Implementation
