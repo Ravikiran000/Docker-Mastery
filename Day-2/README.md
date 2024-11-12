@@ -1,5 +1,5 @@
-### Docker Volumes & Bind Mounts
-### Why Volumes & Bind Mounts are needed:
+# Docker Volumes & Bind Mounts
+## Why Volumes & Bind Mounts are needed:
 Imagine you have an application packaged in a container that stores data in a database. If that container unexpectedly goes down, any data saved by the application would typically be lost. However, by using Docker volumes or bind mounts, you can ensure that the data is preserved and remains intact, even if the container stops running.
 
 1. Docker Volumes:  Volumes are stored in a part of the host filesystem managed by Docker. Volumes provide a layer of abstraction over the host filesystem, ensuring that container data is decoupled from the host.
