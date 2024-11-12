@@ -86,10 +86,14 @@ show dbs;
 db.helo.find()
 
 ## Using Bind Mounts
-### Run a container without network access:
+### Run a container & login then check for containers or images(you won't find containers, images, etc. Because the container doesn't connected with docker socket which is responsible connection between docker client and docker daemon
 
 docker run --rm -d --name troubleshootingtools --network none troubleshootingtools:v1
+
+docker ps
 
 ### Run a container with Docker socket mounted:
 
 docker run --rm -d --name troubleshootingtools -v /var/run/docker.sock:/var/run/docker.sock --network none troubleshootingtools:v1
+
+docker ps
