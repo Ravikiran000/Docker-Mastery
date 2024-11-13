@@ -27,7 +27,7 @@ Example: RUN apt-get update && apt-get install -y python3
 Specifies the default command to run when the container starts. If a command is provided in docker run, it will override CMD.
 Example: CMD ["nginx", "-g", "daemon off;"]
 
-## DockerFile for setting up an environment with Terraform and Packer on anUbuntu base image
+## DockerFile for setting up an environment with Terraform and Packer on an Ubuntu base image
 
 FROM ubuntu:latest
 
