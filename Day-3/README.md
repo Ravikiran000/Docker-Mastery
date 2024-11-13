@@ -14,6 +14,14 @@ Example: FROM nginx:latest
 ### LABEL
 Adds metadata to the image, such as authorship or application details, and is useful for image documentation.
 Example: LABEL maintainer="example@example.com"
+### WORKDIR
+WORKDIR instruction in a Dockerfile sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it. This avoids the need to specify full paths repeatedly. EX: WORKDIR /app
+### COPY OR ADD
+Copies files or directories from the local machine (host) to the container's filesystem. COPY is generally preferred as it is simpler and more predictable. ADD also supports downloading remote files and extracting tar archives.
+
+EX: COPY index.nginx-debian.html /var/www/html/
+
+EX: ADD  style.css /var/www/html
 ### ENV
 Sets environment variables within the container. These variables can be accessed by applications or scripts inside the container. 
 Example: ENV AWS_ACCESS_KEY_ID=SDFSDFSDFSDFSDFSDFSDFSDF
@@ -30,7 +38,12 @@ Example: RUN apt-get update && apt-get install -y python3
 ### CMD
 Specifies the default command to run when the container starts. If a command is provided in docker run, it will override CMD.
 Example: CMD ["nginx", "-g", "daemon off;"]
+### ENTRYPOINT
+Defines the main process that will run in the container. Unlike CMD, ENTRYPOINT is less easily overridden. It is typically used to set a command that will always run. ENTRYPOINT ["python3", "app.py"]
 
+NOTE: To overwrite the default ENTRYPOINT of a Docker image, you can use the --entrypoint flag with the docker run command. This allows you to specify a different entry point for the container. EX: docker run --rm -d --name demo --entrypoint /bin/bash demo:v1
+
+This command will start a container using /bin/bash as the entry point instead of the default ENTRYPOINT specified in the Dockerfile.
 ### command to create Dockerfile 
 vim Dockerfile
 ### It is not mandatory to give the name of the dockerfile as "Dockerfile". You can name anything. Suppose you have given the name of the dockerfile as dockfile, then you need to mention "-f dockfile" before "."
@@ -118,3 +131,5 @@ docker images -f "dangling=true"
 docker images prune
 ### Remove All Unused Images
 docker images prune -a
+
+# Dockerfile - Part 2
