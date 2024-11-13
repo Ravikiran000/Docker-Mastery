@@ -32,6 +32,8 @@ Example: ARG VERSION=latest
 ENV: Runtime environment variables for containers.
 
 ARG: Build-time variables for image construction.
+### EXPOSE
+EXPOSE informs Docker that the container will listen on a specified network port at runtime. It doesn’t actually publish the port; it only serves as documentation. To map ports, use docker run -p. EX: EXPOSE 80
 ### RUN
 Executes commands in the container during the image build process. Commonly used for installing software packages, updating the OS, or running custom setup scripts.
 Example: RUN apt-get update && apt-get install -y python3
