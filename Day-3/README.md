@@ -3,7 +3,7 @@
 ## Dockerfile:
 A Dockerfile is a text document that contains all the commands to assemble an image for a Docker container. It automates the deployment of applications by packaging an application and its dependencies in a standardized unit called a container.
 
-### Dockerfile - Part 1
+# Dockerfile - Part 1
 This part-1 contains a Dockerfile for setting up an environment with Terraform and Packer on an Ubuntu base image. Below are the steps and commands used in the Dockerfile and for running the container.
 
 ### Basic Understanding of Dockerfile
