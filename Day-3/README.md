@@ -15,11 +15,15 @@ Example: FROM nginx:latest
 Adds metadata to the image, such as authorship or application details, and is useful for image documentation.
 Example: LABEL maintainer="example@example.com"
 ### ENV
-Sets environment variables within the container. These variables can be accessed by applications or scripts inside the container.
+Sets environment variables within the container. These variables can be accessed by applications or scripts inside the container. 
 Example: ENV AWS_ACCESS_KEY_ID=SDFSDFSDFSDFSDFSDFSDFSDF
 ### ARG
-Defines build-time variables that users can pass to the Docker build process. Useful for configuring the build without hardcoding values.
+Defines build-time variables that users can pass to the Docker build process. Useful for configuring the build without hardcoding values. ARG variables are used to pass build-time variables during the image building process.
 Example: ARG VERSION=latest
+### ARG vs ENV
+ENV: Runtime environment variables for containers.
+
+ARG: Build-time variables for image construction.
 ### RUN
 Executes commands in the container during the image build process. Commonly used for installing software packages, updating the OS, or running custom setup scripts.
 Example: RUN apt-get update && apt-get install -y python3
