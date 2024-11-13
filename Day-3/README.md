@@ -39,7 +39,9 @@ Example: RUN apt-get update && apt-get install -y python3
 Specifies the default command to run when the container starts. If a command is provided in docker run, it will override CMD.
 Example: CMD ["nginx", "-g", "daemon off;"]
 ### ENTRYPOINT
-Defines the main process that will run in the container. Unlike CMD, ENTRYPOINT is less easily overridden. It is typically used to set a command that will always run. ENTRYPOINT ["python3", "app.py"]
+Defines the main process that will run in the container. Unlike CMD, ENTRYPOINT is less easily overridden. It is typically used to set a command that will always run. 
+
+EX: ENTRYPOINT ["python3", "app.py"]
 
 NOTE: To overwrite the default ENTRYPOINT of a Docker image, you can use the --entrypoint flag with the docker run command. This allows you to specify a different entry point for the container. EX: docker run --rm -d --name demo --entrypoint /bin/bash demo:v1
 
