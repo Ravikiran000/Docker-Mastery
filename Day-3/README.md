@@ -1,12 +1,12 @@
-# DockerFile | Build ARG | ENV | Dangling Images
+# Dockerfile | Build ARG | ENV | Dangling Images
 
-## DockerFile:
+## Dockerfile:
 A Dockerfile is a text document that contains all the commands to assemble an image for a Docker container. It automates the deployment of applications by packaging an application and its dependencies in a standardized unit called a container.
 
-### DockerFile - Part 1
+### Dockerfile - Part 1
 This part-1 contains a Dockerfile for setting up an environment with Terraform and Packer on an Ubuntu base image. Below are the steps and commands used in the Dockerfile and for running the container.
 
-### Basic Understanding of DockerFile
+### Basic Understanding of Dockerfile
 ### FROM
 Defines the base image for the container. All Docker images start with a base, which can be a minimal OS (like alpine or ubuntu) or an application image (like nginx, node, etc.).
 
@@ -30,6 +30,11 @@ Example: RUN apt-get update && apt-get install -y python3
 ### CMD
 Specifies the default command to run when the container starts. If a command is provided in docker run, it will override CMD.
 Example: CMD ["nginx", "-g", "daemon off;"]
+
+### command to create Dockerfile 
+vim Dockerfile
+### It is not mandatory to give the name of the dockerfile as "Dockerfile". You can name anything. Suppose you have given the name of the dockerfile as dockfile, then you need to mention "-f dockfile" before "."
+docker build -t demo:v1 -f dockfile .
 
 ## DockerFile for setting up an environment with Terraform and Packer on an Ubuntu base image
 
