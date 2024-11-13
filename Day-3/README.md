@@ -54,3 +54,62 @@ RUN wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VER
 && ./terraform version && ./packer version
 
 CMD ["nginx", "-g", "daemon off;"]
+
+### CMD ["nginx", "-g", "daemon off;"] 
+CMD ["nginx", "-g", "daemon off;"] command, running Nginx in the foreground (by using daemon off;) means that Nginx will not detach and run as a background process. Instead, it will stay active in the main terminal session, ensuring the container continues to run and serve requests.
+
+# Implementaion
+### Build the image
+docker build .
+### Tag the existing image that is without tag
+docker tag <image-id> <image_name:version>
+
+EX: docker tag 35825f3277d9 demo:v1
+### Tag existing image that is with tag
+docker tag <existing_tag_name:version> <desired_tag_name:version>
+
+EX: docker tag demo:v1 demo2:v2
+
+## build args implementation
+### Run your container, login to the container & check the Args given in Dockerfile (you can see the packer & terraform versions given in Dockerfile)
+docker run --rm -d --name demo1 -p 8000:80 demo2:v2
+
+docker exec -it demo1 bash
+
+ls -al
+
+./packer version
+
+./terraform version
+### Give build args while building the image (this will override the packer & terraform versions given in Dockerfile)
+docker build -t demo1:latest --progress=plain --build-arg T_VERSION='1.8.0' --build-arg P_VERSION='1.3.3' .
+
+--progress=plain will provide plain text output.
+
+### stop the container(because we are giving same name), run the container again and login into it (will show changed packer & terraform versions)
+docker run --rm -d --name demo1 demo1:latest
+
+docker exec -it demo1 bash
+
+ls -al
+
+./packer version
+
+./terraform version
+
+## env implementation
+### check the env variables (you will see the env given in Dockerfile)
+docker exec -it demo1 env 
+### Giving env at runtime of container 
+docker run --rm -d --name demo2 -e AWS_ACCESS_KEY_ID=SDFSDFSD -e AWS_SECRET_KEY_ID=SDS -p 8000:80 demo:latest
+### check env of container(this will give env which are given at the runtime of the container, overriding the one's in Dockerfile)
+docker exec -it demo2 env
+
+## Dangling Images
+Dangling images are Docker images that are not tagged and are not referenced by any container. These images can take up unnecessary space on your system.
+### Identifying Dangling images
+docker images -f "dangling=true"
+### Remove Dangling Images
+docker images prune
+### Remove All Unused Images
+docker images prune -a
