@@ -35,7 +35,7 @@ Example: CMD ["nginx", "-g", "daemon off;"]
 
 FROM ubuntu:latest
 
-LABEL name="saikiran"
+LABEL name="ravikiran"
 
 ENV AWS_ACCESS_KEY_ID=SDFSDFSDFSDFSDFSDFSDFSDF
 AWS_SECRET_KEY_ID=SDSDSDSDSDSDSDSDSDSDSDSD
