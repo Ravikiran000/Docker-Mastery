@@ -36,7 +36,7 @@ vim Dockerfile
 ### It is not mandatory to give the name of the dockerfile as "Dockerfile". You can name anything. Suppose you have given the name of the dockerfile as dockfile, then you need to mention "-f dockfile" before "."
 docker build -t demo:v1 -f dockfile .
 
-## DockerFile for setting up an environment with Terraform and Packer on an Ubuntu base image
+## Dockerfile for setting up an environment with Terraform and Packer on an Ubuntu base image
 
 FROM ubuntu:latest
 
