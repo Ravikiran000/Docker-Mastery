@@ -9,6 +9,7 @@ This part-1 contains a Dockerfile for setting up an environment with Terraform a
 ### Basic Understanding of DockerFile
 ### FROM
 Defines the base image for the container. All Docker images start with a base, which can be a minimal OS (like alpine or ubuntu) or an application image (like nginx, node, etc.).
+
 Example: FROM nginx:latest
 ### LABEL
 Adds metadata to the image, such as authorship or application details, and is useful for image documentation.
@@ -25,6 +26,9 @@ Example: RUN apt-get update && apt-get install -y python3
 ### CMD
 Specifies the default command to run when the container starts. If a command is provided in docker run, it will override CMD.
 Example: CMD ["nginx", "-g", "daemon off;"]
+
+## DockerFile for setting up an environment with Terraform and Packer on anUbuntu base image
+
 FROM ubuntu:latest
 
 LABEL name="saikiran"
