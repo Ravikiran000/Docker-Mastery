@@ -37,6 +37,7 @@ Executes commands in the container during the image build process. Commonly used
 Example: RUN apt-get update && apt-get install -y python3
 ### CMD
 Specifies the default command to run when the container starts. If a command is provided in docker run, it will override CMD.
+
 Example: CMD ["nginx", "-g", "daemon off;"]
 ### ENTRYPOINT
 Defines the main process that will run in the container. Unlike CMD, ENTRYPOINT is less easily overridden. It is typically used to set a command that will always run. 
@@ -57,21 +58,23 @@ FROM ubuntu:latest
 
 LABEL name="ravikiran"
 
-ENV AWS_ACCESS_KEY_ID=SDFSDFSDFSDFSDFSDFSDFSDF
-AWS_SECRET_KEY_ID=SDSDSDSDSDSDSDSDSDSDSDSD
-AWS_DEFAULT_REGION=US-EAST-1A
+ENV AWS_ACCESS_KEY_ID=SDFSDFSDFSDFSDFSDFSDFSDF\
 
-ARG T_VERSION='1.6.6'
-P_VERSION='1.8.0'
+    AWS_SECRET_KEY_ID=SDSDSDSDSDSDSDSDSDSDSDSD\
+    
+    AWS_DEFAULT_REGION=US-EAST-1A
 
-RUN apt update && apt install -y jq net-tools curl wget unzip
-&& apt install -y nginx iputils-ping
+ARG T_VERSION='1.6.6'\
+    P_VERSION='1.8.0'
 
-RUN wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VERSION}_linux_amd64.zip
-&& wget https://releases.hashicorp.com/packer/${P_VERSION}/packer_${P_VERSION}_linux_amd64.zip
-&& unzip terraform_${T_VERSION}linux_amd64.zip && unzip packer${P_VERSION}_linux_amd64.zip
-&& chmod 777 terraform && chmod 777 packer
-&& ./terraform version && ./packer version
+RUN apt update && apt install -y jq net-tools curl wget unzip\
+    && apt install -y nginx iputils-ping
+    
+RUN wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VERSION}_linux_amd64.zip \
+    && wgt https://releases.hashicorp.com/packer/${P_VERSION}/packer_${P_VERSION}_linux_amd64.zip\
+    && unzip terraform_${T_VERSION}_linux_amd64.zip  && unzip packer_${P_VERSION}_linux_amd64.zip\
+    && chmod 777 terraform && chmod 777 packer\
+    && ./terraform version && ./packer version
 
 CMD ["nginx", "-g", "daemon off;"]
 
@@ -135,3 +138,29 @@ docker images prune
 docker images prune -a
 
 # Dockerfile - Part 2
+### Below is the Dockerfile implementing USER WORKDIR COPY ADD commands, adding to the above Dockerfile
+FROM ubuntu:latest
+LABEL name="saikiran"
+RUN mkdir /app
+RUN groupadd appuser && useradd -r -g appuser appuser 
+WORKDIR /app 
+USER  appuser
+ENV AWS_ACCESS_KEY_ID=DUMMYKEY \
+    AWS_SECRET_KEY_ID=DUMMYKEY \
+    AWS_DEFAULT_REGION=US-EAST-1A
+COPY index.nginx-debian.html /var/www/html/
+COPY scorekeeper.js /var/www/html
+ADD  style.css /var/www/html
+ADD https://releases.hashicorp.com/terraform/1.9.0/terraform_1.9.0_linux_amd64.zip /var/www/html
+ARG T_VERSION='1.6.6' \
+    P_VERSION='1.8.0'
+EXPOSE 80
+RUN apt update && apt install -y jq net-tools curl wget unzip \
+    && apt install -y nginx iputils-ping 
+RUN wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VERSION}_linux_amd64.zip \
+    && wget https://releases.hashicorp.com/packer/${P_VERSION}/packer_${P_VERSION}_linux_amd64.zip \
+    && unzip terraform_${T_VERSION}_linux_amd64.zip && unzip packer_${P_VERSION}_linux_amd64.zip \
+    && chmod 777 terraform && chmod 777 packer \
+    && ./terraform version && ./packer version 
+USER  appuser
+CMD ["nginx","-g","daemon off;"]
