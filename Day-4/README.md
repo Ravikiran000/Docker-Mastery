@@ -4,4 +4,45 @@ Distroless images are Docker images built by Google that contain only your appli
 ### Why do we need Distroless Images?
 1. Reduces Attack Surface: Without a shell or other utilities, there are fewer vulnerabilities that an attacker could exploit.
 2. Minimizes Image Size: By including only what is necessary for running the application, the image becomes smaller, which can improve load and deployment times.
+
 Distroless images are especially useful in production environments where you want to minimize the size of the image and reduce exposure to security risks. By removing unnecessary components, these images also tend to be smaller and load faster.
+
+Ex: 
+pull a distoless image and check it's size
+
+https://github.com/GoogleContainerTools/distroless
+
+docker pull gcr.io/distroless/static-debian12 
+
+If you check the size of the above image, it will be very low.
+
+You can also use this distroless images in your dockerfile, but you won't be able to login to your container, since it doesn't have shell.
+
+Consider Day-3 Dockerfile, using distro image in it (you can't build the image, because we're trying create a directory, group, user and distroless image can't have shell)
+
+FROM gcr.io/distroless/static-debian11
+LABEL name="ravikiran"
+ARG T_VERSION='1.6.6'\
+    P_VERSION='1.8.0'
+RUN mkdir /app \
+    && roupadd appuser && useradd -r -g appuser appuser \
+    && apt update && apt install -y jq net-tools curl wget unzip\
+    && apt install -y nginx iputils-ping \
+    && wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VERSION}_linux_amd64.zip \
+    && wgt https://releases.hashicorp.com/packer/${P_VERSION}/packer_${P_VERSION}_linux_amd64.zip\
+    && unzip terraform_${T_VERSION}_linux_amd64.zip  && unzip packer_${P_VERSION}_linux_amd64.zip\
+    && chmod 777 terraform && chmod 777 packer\
+    && ./terraform version && ./packer version
+WORKDIR /app
+USER  appuser
+ENV AWS_ACCESS_KEY_ID=DUMMYKEY\
+    AWS_SECRET_KEY_ID=DUMMYKEY\
+    AWS_DEFAULT_REGION=US-EAST-1A
+#COPY index.nginx-debian.html /var/www/html/
+#COPY scorekeeper.js /var/www/html
+#ADD  style.css /var/www/html
+ADD https://releases.hashicorp.com/terraform/1.9.0/terraform_1.9.0_linux_amd64.zip /var/www/html
+EXPOSE 80
+#RUN
+USER  appuser
+CMD ["nginx","-g","daemon off;"]
