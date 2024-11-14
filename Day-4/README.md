@@ -129,7 +129,7 @@ This will start your Java application, running the main method defined in the ap
 Modify runtime image of the above Dockerfile and build the image again. You can see that the size of the image is reduced. This is because, first we used JDK at runtime, later we used JRE which have runtime only unlike JDK which which has additional tools for developing Java applications.
 
 ### Modified Dockerfile 
-# Stage 1: Build stage 284
+#Stage 1: Build stage 284
 FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /app
 
@@ -137,7 +137,7 @@ COPY . .
 
 RUN ./mvnw package -DskipTests
 
-# Stage 2: Runtime stage
+#Stage 2: Runtime stage
 FROM openjdk:11-jre-slim
 
 WORKDIR /app
