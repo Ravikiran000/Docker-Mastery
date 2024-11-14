@@ -59,7 +59,7 @@ USER  appuser
 
 CMD ["nginx","-g","daemon off;"]
 
-In the above file, you can observe that we included the things to downlaod under in one RUN command, that is for decreasing the layers of the image, which is a best practice.
+In the above file, you can observe that we included the things to be downloaded are placed under in one RUN command, that is for decreasing the layers of the image, which is a best practice.
 
 ## Multistage builds
 Multistage builds allow you to use multiple stages in a Dockerfile to separate build steps and dependencies from the final production image. With multistage builds, you can create a smaller, optimized final image by only copying the necessary artifacts from previous stages and discarding any unnecessary files or dependencies.
@@ -76,18 +76,74 @@ clone the below repository (this is a java application, we are just containerizi
 git clone https://github.com/spring-projects/spring-petclinic.git
 
 ### Move to the cloned Repo/Directory & write a dockerfile
-1. cd <directory>
-2. vim Dockerfile
+   cd <directory>
    
-   #Stage 1: Build stage 
+   vim Dockerfile
+   
+   #Stage 1: Build stage
+   
    FROM maven:3.8.5-openjdk-17-slim AS build
+   
    WORKDIR /app
+   
    COPY . .
+   
    RUN ./mvnw package -DskipTests
+   
    #Stage 2: Runtime stage
+   
    FROM openjdk:17-jdk-slim AS runtime
+   
    WORKDIR /app
+   
    COPY --from=build /app/target/*.jar app.jar
 
    EXPOSE 8080
+   
    CMD ["java", "-jar", "app.jar"]
+
+### Expplanation:
+### Stage-1 (Build Stage)
+### FROM maven:3.8.5-openjdk-17-slim AS build
+This starts the build stage using a lightweight Docker image with Maven 3.8.5 and OpenJDK 17. Labeling it as build allows us to reference this stage in later steps.
+### WORKDIR /app
+Sets the working directory to /app within the container. Any subsequent commands run within this directory.
+### COPY . .
+Copies all files from the current directory on the host machine into the /app directory in the container. This includes the source code, pom.xml, and any other files required for building the application.
+### RUN ./mvnw package -DskipTests
+Runs the Maven build command to compile the code and package it as a JAR file, skipping any tests.
+The package phase includes all necessary steps to compile the code and produce the final JAR file in the target/ directory.
+### Stage-2 (Run Stage)
+### FROM openjdk:17-jdk-slim AS runtime
+Starts a new stage, labeled runtime, which uses a lightweight OpenJDK 17 image. This image includes the JDK required to run the Java application.
+### WORKDIR /app
+Sets the working directory to /app again for consistency in the runtime stage
+### COPY --from=build /app/target/*.jar app.jar
+Copies the JAR file generated in the build stage into the runtime stage’s /app directory, naming it app.jar. This command references the first stage (build) and grabs the built JAR from the target directory.
+### EXPOSE 8080:
+Tells Docker that this container will listen on port 8080, which is the default port for many Java web applications.
+### CMD ["java", "-jar", "app.jar"]
+This will start your Java application, running the main method defined in the app.jar file.
+
+### You can reduce the image size of the application by just changing the runtime image in the second stage
+Modify runtime image of the above Dockerfile and build the image again. You can see that the size of the image is reduced. This is because, first we used JDK at runtime, later we used JRE which have runtime only unlike JDK which which has additional tools for developing Java applications.
+
+### Modified Dockerfile 
+# Stage 1: Build stage 284
+FROM maven:3.8.5-openjdk-17-slim AS build
+WORKDIR /app
+
+COPY . .
+
+RUN ./mvnw package -DskipTests
+
+# Stage 2: Runtime stage
+FROM openjdk:11-jre-slim
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "app.jar"]
