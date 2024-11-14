@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-LABEL name="saikiran"
+LABEL name="ravikiran"
 RUN mkdir /app 
 RUN groupadd appuser && useradd -r -g appuser appuser 
 WORKDIR /app 
