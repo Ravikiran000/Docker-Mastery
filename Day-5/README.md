@@ -56,13 +56,13 @@ CMD ["nginx","-g","daemon off;"]
 
 3. create a docker compose file as "docker-compose.yml"
    
-version: "3.8"
+version: "3.9"
 
 
 services:
 
 
-  dockerfile1:
+  dev:
 
   
     build:
@@ -77,7 +77,7 @@ services:
     container_name: dev
 
     
-  dockerfile2:
+  stage:
 
   
     build:
@@ -92,7 +92,7 @@ services:
     container_name: staging
 
     
-  dockerfile3:
+  prod:
 
   
     build:
@@ -109,7 +109,10 @@ services:
 4. Run the compose file with "docker compose up -d", this will start building the docker images and run the containers in detached mode.
 5. You can see that multiple containers were started simutaneously.
 
-### you can also try the below project. Just the check the code and execute the compose files with "docker compose up -d"
+### Explanation:
+
+
+### You can also try the below project. Just check the code and execute the compose files with "docker compose up -d"
  
  https://github.com/dockersamples/example-voting-app.git
  
