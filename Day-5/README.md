@@ -109,7 +109,7 @@ services:
 4. Run the compose file with "docker compose up -d", this will start building the docker images and run the containers in detached mode.
 5. You can see that multiple containers were started simutaneously.
 
-### Explanation:
+## Explanation:
 ### version: "3.9" 
 specifies the version of the Docker Compose file format.
 ### services
