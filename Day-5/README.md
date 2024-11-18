@@ -58,35 +58,51 @@ CMD ["nginx","-g","daemon off;"]
    
 version: "3.8"
 
+
 services:
 
+
   dockerfile1:
+
   
     build:
+
     
       contex: .
+
       
       dockerfile: dockerfile1
+
       
     container_name: dev
+
     
   dockerfile2:
+
   
     build:
+
     
       context: .
+
       
       dockerfile: dockerfile2
+
       
     container_name: staging
+
     
   dockerfile3:
+
   
     build:
+
     
       context: .
+
       
       dockerfile: dockerfile3
+
       
     container_name: prod
 
