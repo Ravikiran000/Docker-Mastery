@@ -74,7 +74,7 @@ services:
       dockerfile: dockerfile1
 
       
-    container_name: dev
+    container_name: dev_container
 
     
   stage:
@@ -89,7 +89,7 @@ services:
       dockerfile: dockerfile2
 
       
-    container_name: staging
+    container_name: staging_container
 
     
   prod:
@@ -104,13 +104,22 @@ services:
       dockerfile: dockerfile3
 
       
-    container_name: prod
+    container_name: prod_container
 
 4. Run the compose file with "docker compose up -d", this will start building the docker images and run the containers in detached mode.
 5. You can see that multiple containers were started simutaneously.
 
 ### Explanation:
-
+### version: "3.9" 
+specifies the version of the Docker Compose file format.
+### services
+Services are the individual containers or applications being managed. In this file, there are three services: dev, stage, and prod.
+### build: context: .
+Specifies the build context, which is the current directory (.). All files needed to build the image should be in this directory or its subdirectories.
+### dockerfile: Dockerfile1
+Specifies the Dockerfile to use for building the image (Dockerfile1).
+### container_name
+container_name: dev_container: The container will be explicitly named dev_container.
 
 ### You can also try the below project. Just check the code and execute the compose files with "docker compose up -d"
  
