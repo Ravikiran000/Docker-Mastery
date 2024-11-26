@@ -78,7 +78,7 @@ lsns -t pid
 docker run --name app1 nginx:latest
 
 ### Run a container in the background: 
-docker -d run --name app1 nginx:latest
+docker run -d --name app1 nginx:latest
 
 ### Create multiple containers: 
 for i in {1..10}; do 
