@@ -67,7 +67,7 @@ services:
       dockerfile: dockerfile3
     container_name: prod_container
 ```
-4. Run the compose file with "docker compose up -d", this will start building the docker images and run the containers in detached mode.
+4. Run the compose file with **docker compose up -d**, this will start building the docker images and run the containers in detached mode.
 5. You can see that multiple containers were started simutaneously.
 
 ## Explanation:
