@@ -25,7 +25,7 @@ Here we are creating multiple dockerfiles and using docker compose to execute th
    2.1 First move to /usr/local/bin and enter the commands given below
    ```
         cd /usr/local/bin
-        https://github.com/docker/compose/releases/download/v2.30.3/docker-compose-linux-x86_64
+        wget https://github.com/docker/compose/releases/download/v2.30.3/docker-compose-linux-x86_64
    ```
    2.2 rename the file & chnage permissions
    ```
