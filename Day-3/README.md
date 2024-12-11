@@ -55,31 +55,23 @@ vim Dockerfile
 docker build -t demo:v1 -f dockfile .
 
 ## Dockerfile for setting up an environment with Terraform and Packer on an Ubuntu base image
-
+```
 FROM ubuntu:latest
-
 LABEL name="ravikiran"
-
 ENV AWS_ACCESS_KEY_ID=SDFSDFSDFSDFSDFSDFSDFSDF\
-
     AWS_SECRET_KEY_ID=SDSDSDSDSDSDSDSDSDSDSDSD\
-    
     AWS_DEFAULT_REGION=US-EAST-1A
-
 ARG T_VERSION='1.6.6'\
     P_VERSION='1.8.0'
-
 RUN apt update && apt install -y jq net-tools curl wget unzip\
     && apt install -y nginx iputils-ping
-    
 RUN wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VERSION}_linux_amd64.zip \
     && wgt https://releases.hashicorp.com/packer/${P_VERSION}/packer_${P_VERSION}_linux_amd64.zip\
     && unzip terraform_${T_VERSION}_linux_amd64.zip  && unzip packer_${P_VERSION}_linux_amd64.zip\
     && chmod 777 terraform && chmod 777 packer\
     && ./terraform version && ./packer version
-
 CMD ["nginx", "-g", "daemon off;"]
-
+```
 ### CMD ["nginx", "-g", "daemon off;"] 
 CMD ["nginx", "-g", "daemon off;"] command, running Nginx in the foreground (by using daemon off;) means that Nginx will not detach and run as a background process. Instead, it will stay active in the main terminal session, ensuring the container continues to run and serve requests.
 
@@ -97,31 +89,26 @@ EX: docker tag demo:v1 demo2:v2
 
 ## build args implementation
 ### Run your container, login to the container & check the Args given in Dockerfile (you can see the packer & terraform versions given in Dockerfile)
+```
 docker run --rm -d --name demo1 -p 8000:80 demo2:v2
-
 docker exec -it demo1 bash
-
 ls -al
-
 ./packer version
-
 ./terraform version
+```
 ### Give build args while building the image (this will override the packer & terraform versions given in Dockerfile)
+```
 docker build -t demo1:latest --progress=plain --build-arg T_VERSION='1.8.0' --build-arg P_VERSION='1.3.3' .
-
 --progress=plain will provide plain text output.
-
+```
 ### stop the container(because we are giving same name), run the container again and login into it (will show changed packer & terraform versions)
+```
 docker run --rm -d --name demo1 demo1:latest
-
 docker exec -it demo1 bash
-
 ls -al
-
 ./packer version
-
 ./terraform version
-
+```
 ## env implementation
 ### check the env variables (you will see the env given in Dockerfile)
 docker exec -it demo1 env 
@@ -141,52 +128,30 @@ docker images prune -a
 
 # Dockerfile - Part 2
 ### Below is the Dockerfile implementing USER WORKDIR COPY ADD commands, adding to the above Dockerfile
+```
 FROM ubuntu:latest
-
 LABEL name="ravikiran"
-
 RUN mkdir /app 
-
 RUN groupadd appuser && useradd -r -g appuser appuser
-
 WORKDIR /app 
-
 USER  appuser
-
 ENV AWS_ACCESS_KEY_ID=DUMMYKEY\
-
     AWS_SECRET_KEY_ID=DUMMYKEY\
-    
     AWS_DEFAULT_REGION=US-EAST-1A
-    
 COPY index.nginx-debian.html /var/www/html/
-
 COPY scorekeeper.js /var/www/html
-
 ADD  style.css /var/www/html
-
 ADD https://releases.hashicorp.com/terraform/1.9.0/terraform_1.9.0_linux_amd64.zip /var/www/html
-
 ARG T_VERSION='1.6.6'\
-
     P_VERSION='1.8.0'
-    
 EXPOSE 80
-
 RUN apt update && apt install -y jq net-tools curl wget unzip\
-
     && apt install -y nginx iputils-ping 
-
 RUN wget https://releases.hashicorp.com/terraform/${T_VERSION}/terraform_${T_VERSION}_linux_amd64.zip \
-
     && wgt https://releases.hashicorp.com/packer/${P_VERSION}/packer_${P_VERSION}_linux_amd64.zip\
-    
     && unzip terraform_${T_VERSION}_linux_amd64.zip  && unzip packer_${P_VERSION}_linux_amd64.zip\
-    
     && chmod 777 terraform && chmod 777 packer\
-    
     && ./terraform version && ./packer version 
-    
 USER  appuser
-
 CMD ["nginx","-g","daemon off;"]
+```
