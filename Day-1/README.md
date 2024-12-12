@@ -64,6 +64,10 @@ An image is a read-only template with instructions for creating a Docker contain
 
 ## Installing Docker 
 curl https://get.docker.com/ | bash
+
+sudo usermod -aG docker ubuntu
+
+newgrp docker
 ## Listing namespaces & Running basic docker commands
 ### Check Docker version: 
 docker version
